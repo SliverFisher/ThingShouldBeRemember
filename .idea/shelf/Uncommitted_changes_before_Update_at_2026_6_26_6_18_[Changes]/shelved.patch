@@ -1,0 +1,16 @@
+Index: .idea/modules.xml
+===================================================================
+diff --git a/.idea/modules.xml b/.idea/modules.xml
+deleted file mode 100644
+--- a/.idea/modules.xml	(revision 38991c9547d0d1ce34efc22d00405c4b07feabea)
++++ /dev/null	(revision 38991c9547d0d1ce34efc22d00405c4b07feabea)
+@@ -1,8 +0,0 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+-<project version="4">
+-  <component name="ProjectModuleManager">
+-    <modules>
+-      <module fileurl="file://$PROJECT_DIR$/Leaf/Leaf.iml" filepath="$PROJECT_DIR$/Leaf/Leaf.iml" />
+-    </modules>
+-  </component>
+-</project>
+\ No newline at end of file
