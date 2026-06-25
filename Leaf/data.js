@@ -32,5 +32,17 @@ window.TECHNICIANS = [
         "src": "assets/media/158-1.jpg"
       }
     ]
+  },
+  {
+    "number": "1582",
+    "note": "照片 2",
+    "avatar": "assets/media/158-2.jpg",
+    "media": [
+      {
+        "type": "image",
+        "title": "158 照片 2",
+        "src": "assets/media/158-2.jpg"
+      }
+    ]
   }
 ];
