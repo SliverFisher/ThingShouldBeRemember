@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>技师展示页</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="title">
+        <div class="badge">档</div>
+        <h1>技师展示页</h1>
+      </div>
+      <div class="summary" id="summary">加载中</div>
+    </div>
+  </header>
+
+  <main>
+    <section class="grid" id="techGrid" aria-label="技师列表"></section>
+  </main>
+
+  <dialog id="detail">
+    <div class="detail-head">
+      <div>
+        <strong id="detailNumber"></strong>
+        <div class="meta" id="detailNote"></div>
+      </div>
+      <button class="btn" id="closeDetail" type="button">关闭</button>
+    </div>
+    <div class="detail-body">
+      <div class="gallery" id="gallery"></div>
+    </div>
+  </dialog>
+
+  <dialog id="viewer" class="viewer">
+    <div class="detail-head">
+      <strong id="viewerTitle">查看</strong>
+      <button class="btn" id="closeViewer" type="button">关闭</button>
+    </div>
+    <div class="viewer-body" id="viewerBody"></div>
+  </dialog>
+
+  <script src="data.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
