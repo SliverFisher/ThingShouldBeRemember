@@ -28,7 +28,7 @@ window.TECHNICIANS = [
     "number": "100",
     "category": "星际",
     "note": "颜值 6.5 · 身材 7.5 · 尺度 7",
-    "avatar": "assets/media/100/photo-1.jpg",
+    "avatar": "assets/media/100/photo-2.jpg",
     "media": [
       {
         "type": "image",
