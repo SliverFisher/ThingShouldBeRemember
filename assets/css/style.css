@@ -270,3 +270,18 @@ dialog::backdrop {
     grid-template-columns: 1fr;
   }
 }
+
+.media video {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  display: block;
+  background: #12100e;
+}
+
+.viewer-body video {
+  max-width: 100%;
+  max-height: calc(100vh - 134px);
+  border-radius: 8px;
+  background: #050505;
+}

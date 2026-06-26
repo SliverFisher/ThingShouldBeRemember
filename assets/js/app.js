@@ -21,29 +21,47 @@ function openViewer(media) {
   viewerTitle.textContent = media.title || "查看";
   viewerBody.innerHTML = "";
 
-  const img = document.createElement("img");
-  img.src = media.src;
-  img.alt = media.title || "照片";
-  viewerBody.appendChild(img);
+  if (media.type === "video") {
+    const video = document.createElement("video");
+    video.src = media.src;
+    video.controls = true;
+    video.autoplay = true;
+    video.playsInline = true;
+    viewerBody.appendChild(video);
+  } else {
+    const img = document.createElement("img");
+    img.src = media.src;
+    img.alt = media.title || "照片";
+    viewerBody.appendChild(img);
+  }
 
   viewer.showModal();
 }
 
 function openDetail(tech) {
   document.getElementById("detailNumber").textContent = tech.number;
-  document.getElementById("detailNote").textContent = tech.note;
+  document.getElementById("detailNote").textContent = "共 " + tech.media.length + " 个资源";
   gallery.innerHTML = "";
 
   tech.media.forEach((media) => {
     const item = makeEl("button", "media");
     item.type = "button";
 
-    const img = document.createElement("img");
-    img.src = media.src;
-    img.alt = media.title || "照片";
-    item.appendChild(img);
+    if (media.type === "video") {
+      const video = document.createElement("video");
+      video.src = media.src;
+      video.muted = true;
+      video.playsInline = true;
+      video.preload = "metadata";
+      item.appendChild(video);
+    } else {
+      const img = document.createElement("img");
+      img.src = media.src;
+      img.alt = media.title || "照片";
+      item.appendChild(img);
+    }
 
-    item.appendChild(makeEl("div", "media-caption", media.title || "照片"));
+    item.appendChild(makeEl("div", "media-caption", media.title || "资源"));
     item.addEventListener("click", () => openViewer(media));
     gallery.appendChild(item);
   });
@@ -64,7 +82,7 @@ techs.forEach((tech) => {
 
   const info = makeEl("div", "card-info");
   info.appendChild(makeEl("div", "number", tech.number));
-  info.appendChild(makeEl("div", "meta", tech.note));
+  info.appendChild(makeEl("div", "meta", "共 " + tech.media.length + " 个资源"));
 
   card.append(avatar, info);
   grid.appendChild(card);
