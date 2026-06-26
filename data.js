@@ -309,11 +309,6 @@ window.TECHNICIANS = [
         "type": "image",
         "title": "123 照片 5",
         "src": "assets/media/123/extra-4.jpg"
-      },
-      {
-        "type": "image",
-        "title": "123 照片 6",
-        "src": "assets/media/123/extra-5.jpg"
       }
     ],
     "info": {
@@ -654,6 +649,11 @@ window.TECHNICIANS = [
         "type": "image",
         "title": "191 照片 1",
         "src": "assets/media/191/photo-1.jpg"
+      },
+      {
+        "type": "image",
+        "title": "191 照片 2",
+        "src": "assets/media/191/photo-2.jpg"
       }
     ],
     "info": {
@@ -679,6 +679,11 @@ window.TECHNICIANS = [
         "type": "image",
         "title": "199 照片 1",
         "src": "assets/media/199/photo-1.jpg"
+      },
+      {
+        "type": "video",
+        "title": "199 视频 2",
+        "src": "assets/media/199/video-1.mp4"
       }
     ],
     "info": {
@@ -704,6 +709,21 @@ window.TECHNICIANS = [
         "type": "image",
         "title": "222 照片 1",
         "src": "assets/media/222/photo-1.jpg"
+      },
+      {
+        "type": "image",
+        "title": "222 照片 2",
+        "src": "assets/media/222/photo-2.jpg"
+      },
+      {
+        "type": "video",
+        "title": "222 视频 3",
+        "src": "assets/media/222/video-1.mp4"
+      },
+      {
+        "type": "video",
+        "title": "222 视频 4",
+        "src": "assets/media/222/video-2.mp4"
       }
     ],
     "info": {
@@ -748,12 +768,17 @@ window.TECHNICIANS = [
     "number": "555",
     "category": "星际",
     "note": "颜值 8 · 身材 8 · 尺度 6",
-    "avatar": "assets/media/555/photo-1.jpg",
+    "avatar": "assets/media/555/photo-2.jpg",
     "media": [
       {
         "type": "image",
         "title": "555 照片 1",
         "src": "assets/media/555/photo-1.jpg"
+      },
+      {
+        "type": "image",
+        "title": "555 照片 2",
+        "src": "assets/media/555/photo-2.jpg"
       }
     ],
     "info": {
