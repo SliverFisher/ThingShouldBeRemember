@@ -753,13 +753,8 @@ window.TECHNICIANS = [
     "number": "555",
     "category": "星际",
     "note": "颜值 8 · 身材 8 · 尺度 6",
-    "avatar": "assets/media/555/photo-2.jpg",
+    "avatar": "assets/media/555/photo-3.jpg",
     "media": [
-      {
-        "type": "image",
-        "title": "555 照片 1",
-        "src": "assets/media/555/photo-1.jpg"
-      },
       {
         "type": "image",
         "title": "555 照片 2",

@@ -207,13 +207,8 @@ async function renderMedia() {
     const remove = document.createElement("button");
     remove.className = "btn danger";
     remove.type = "button";
-    remove.textContent = "移出页面";
-    remove.addEventListener("click", () => {
-      tech.media = tech.media.filter((item) => item !== media);
-      if (tech.avatar === media.src) tech.avatar = tech.media.find((item) => item.type === "image")?.src || tech.media[0]?.src || "";
-      setStatus("资源已移出页面，记得保存");
-      renderAll();
-    });
+    remove.textContent = "删除资源";
+    remove.addEventListener("click", () => deleteResource(tech, media));
     actions.append(cover, remove);
     if (tech.avatar === media.src) body.appendChild(Object.assign(document.createElement("div"), { className: "cover-badge", textContent: "封面" }));
     body.append(name, actions);
@@ -298,6 +293,26 @@ async function addResources(event) {
     setStatus("资源已写入本地，正在保存页面数据...");
     await saveAll();
   }
+}
+
+async function deleteResource(tech, media) {
+  if (!confirm("确定删除这个本地资源文件？删除后文件会从 assets/media 里移除。")) return;
+  const res = await fetch(API_BASE + "/api/delete-resource", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ src: media.src })
+  });
+  if (!res.ok) {
+    alert("删除失败：" + await res.text());
+    return;
+  }
+  tech.media = tech.media.filter((item) => item !== media);
+  if (tech.avatar === media.src) {
+    tech.avatar = tech.media.find((item) => item.type === "image")?.src || tech.media[0]?.src || "";
+  }
+  setStatus("资源文件已删除，正在保存页面数据...");
+  renderAll();
+  await saveAll();
 }
 
 function addTech() {
