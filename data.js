@@ -1028,7 +1028,7 @@ window.TECHNICIANS = [
     "number": "855",
     "category": "",
     "note": "",
-    "avatar": "assets/media/855/photo-1.jpg",
+    "avatar": "assets/media/855/photo-2.jpg",
     "media": [
       {
         "type": "image",
