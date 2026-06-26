@@ -709,21 +709,6 @@ window.TECHNICIANS = [
         "type": "image",
         "title": "222 照片 1",
         "src": "assets/media/222/photo-1.jpg"
-      },
-      {
-        "type": "image",
-        "title": "222 照片 2",
-        "src": "assets/media/222/photo-2.jpg"
-      },
-      {
-        "type": "video",
-        "title": "222 视频 3",
-        "src": "assets/media/222/video-1.mp4"
-      },
-      {
-        "type": "video",
-        "title": "222 视频 4",
-        "src": "assets/media/222/video-2.mp4"
       }
     ],
     "info": {
@@ -779,6 +764,11 @@ window.TECHNICIANS = [
         "type": "image",
         "title": "555 照片 2",
         "src": "assets/media/555/photo-2.jpg"
+      },
+      {
+        "type": "image",
+        "title": "555 照片 3",
+        "src": "assets/media/555/photo-3.jpg"
       }
     ],
     "info": {
