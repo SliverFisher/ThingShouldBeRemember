@@ -1,9 +1,7 @@
 const PASSWORD = "6324";
+const API_BASE = location.port === "5174" ? "" : "http://127.0.0.1:5174";
 let techs = JSON.parse(JSON.stringify(window.TECHNICIANS || []));
 let selectedNumber = techs[0]?.number || "";
-let rootHandle = null;
-let mediaDirHandle = null;
-const objectUrls = new Map();
 
 const els = {
   lockScreen: document.getElementById("lockScreen"),
@@ -11,14 +9,17 @@ const els = {
   password: document.getElementById("passwordInput"),
   unlock: document.getElementById("unlockBtn"),
   lockError: document.getElementById("lockError"),
-  chooseFolder: document.getElementById("chooseFolder"),
-  saveAll: document.getElementById("saveAll"),
+  saveTop: document.getElementById("saveTop"),
+  saveCurrent: document.getElementById("saveCurrent"),
   addTech: document.getElementById("addTech"),
   deleteTech: document.getElementById("deleteTech"),
   resourceInput: document.getElementById("resourceInput"),
   searchInput: document.getElementById("searchInput"),
-  folderStatus: document.getElementById("folderStatus"),
+  saveStatus: document.getElementById("saveStatus"),
+  toast: document.getElementById("toast"),
   techList: document.getElementById("techList"),
+  techSelect: document.getElementById("techSelect"),
+  editorTechSelect: document.getElementById("editorTechSelect"),
   countText: document.getElementById("countText"),
   editorTitle: document.getElementById("editorTitle"),
   editorSub: document.getElementById("editorSub"),
@@ -56,8 +57,6 @@ function unlock() {
   showAdmin();
 }
 
-window.massageAdminUnlock = unlock;
-
 function sortTechs() {
   techs.sort((a, b) => Number(a.number) - Number(b.number));
 }
@@ -74,22 +73,47 @@ function ensureInfo(tech) {
   tech.media ||= [];
 }
 
+function setStatus(message) {
+  els.saveStatus.textContent = message;
+}
+
+function showToast(message) {
+  els.toast.textContent = message;
+  els.toast.hidden = false;
+  window.clearTimeout(showToast.timer);
+  showToast.timer = window.setTimeout(() => {
+    els.toast.hidden = true;
+  }, 2200);
+}
+
+function renderSelect() {
+  const selects = [els.techSelect, els.editorTechSelect].filter(Boolean);
+  selects.forEach((select) => {
+    select.innerHTML = "";
+  });
+  techs.forEach((tech) => {
+    selects.forEach((select) => {
+      const option = document.createElement("option");
+      option.value = tech.number;
+      option.textContent = tech.number + "（" + (tech.media?.length || 0) + " 资源）";
+      option.selected = tech.number === selectedNumber;
+      select.appendChild(option);
+    });
+  });
+}
+
 function renderList() {
   sortTechs();
   els.countText.textContent = techs.length + " 位";
+  renderSelect();
   const q = els.searchInput.value.trim();
   els.techList.innerHTML = "";
   techs.filter((tech) => !q || tech.number.includes(q)).forEach((tech) => {
-    const row = document.createElement("button");
-    row.className = "tech-row" + (tech.number === selectedNumber ? " active" : "");
-    row.type = "button";
-    row.innerHTML = `<strong>${tech.number}</strong><small>${tech.media?.length || 0} 资源</small>`;
-    row.addEventListener("click", () => {
-      syncForm();
-      selectedNumber = tech.number;
-      renderAll();
-    });
-    els.techList.appendChild(row);
+    const option = document.createElement("option");
+    option.value = tech.number;
+    option.textContent = tech.number + "    " + (tech.media?.length || 0) + " 资源";
+    option.selected = tech.number === selectedNumber;
+    els.techList.appendChild(option);
   });
 }
 
@@ -121,7 +145,11 @@ function syncForm() {
     const oldNumber = tech.number;
     tech.number = newNumber;
     tech.info.number = newNumber;
-    tech.media.forEach((media) => media.title = media.title.replace(oldNumber, newNumber));
+    tech.media.forEach((media) => {
+      media.title = media.title.replace(oldNumber, newNumber);
+      media.src = media.src.replace(`assets/media/${oldNumber}/`, `assets/media/${newNumber}/`);
+    });
+    if (tech.avatar) tech.avatar = tech.avatar.replace(`assets/media/${oldNumber}/`, `assets/media/${newNumber}/`);
     selectedNumber = newNumber;
   }
   tech.category = els.category.value.trim();
@@ -134,18 +162,6 @@ function syncForm() {
   tech.info.comment = els.comment.value.trim();
 }
 
-async function mediaPreview(src) {
-  if (!rootHandle || !src.startsWith("assets/media/")) return src;
-  if (objectUrls.has(src)) return objectUrls.get(src);
-  const parts = src.split("/").slice(2);
-  let handle = mediaDirHandle;
-  for (let i = 0; i < parts.length - 1; i++) handle = await handle.getDirectoryHandle(parts[i]);
-  const file = await (await handle.getFileHandle(parts.at(-1))).getFile();
-  const url = URL.createObjectURL(file);
-  objectUrls.set(src, url);
-  return url;
-}
-
 async function renderCover() {
   const tech = currentTech();
   els.coverPreview.innerHTML = "";
@@ -154,9 +170,8 @@ async function renderCover() {
     return;
   }
   const media = tech.media.find((item) => item.src === tech.avatar);
-  const src = await mediaPreview(tech.avatar);
   const el = document.createElement(media?.type === "video" ? "video" : "img");
-  el.src = src;
+  el.src = tech.avatar;
   if (media?.type === "video") el.controls = true;
   els.coverPreview.appendChild(el);
 }
@@ -168,9 +183,8 @@ async function renderMedia() {
   for (const media of tech.media || []) {
     const card = document.createElement("div");
     card.className = "media-card";
-    const src = await mediaPreview(media.src);
     const preview = document.createElement(media.type === "video" ? "video" : "img");
-    preview.src = src;
+    preview.src = media.src;
     if (media.type === "video") preview.controls = true;
     card.appendChild(preview);
 
@@ -187,6 +201,7 @@ async function renderMedia() {
     cover.textContent = tech.avatar === media.src ? "当前封面" : "设为封面";
     cover.addEventListener("click", () => {
       tech.avatar = media.src;
+      setStatus("封面已修改，记得保存");
       renderAll();
     });
     const remove = document.createElement("button");
@@ -196,6 +211,7 @@ async function renderMedia() {
     remove.addEventListener("click", () => {
       tech.media = tech.media.filter((item) => item !== media);
       if (tech.avatar === media.src) tech.avatar = tech.media.find((item) => item.type === "image")?.src || tech.media[0]?.src || "";
+      setStatus("资源已移出页面，记得保存");
       renderAll();
     });
     actions.append(cover, remove);
@@ -213,17 +229,6 @@ function renderAll() {
   renderMedia();
 }
 
-async function chooseFolder() {
-  if (!window.showDirectoryPicker) {
-    alert("当前浏览器不支持写入本地文件夹。请用新版 Chrome 或 Edge 打开 admin.html。");
-    return;
-  }
-  rootHandle = await window.showDirectoryPicker({ mode: "readwrite" });
-  mediaDirHandle = await (await rootHandle.getDirectoryHandle("assets")).getDirectoryHandle("media");
-  els.folderStatus.textContent = "已选择：" + rootHandle.name;
-  renderAll();
-}
-
 function dataJsText() {
   syncForm();
   sortTechs();
@@ -231,16 +236,19 @@ function dataJsText() {
 }
 
 async function saveAll() {
-  if (!rootHandle) {
-    alert("请先选择项目文件夹。");
-    return;
+  try {
+    const res = await fetch(API_BASE + "/api/save-data", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: dataJsText() })
+    });
+    if (!res.ok) throw new Error(await res.text());
+    setStatus("已保存到本地 data.js");
+    showToast("保存成功，已写入本地 data.js");
+    renderAll();
+  } catch (error) {
+    alert("保存失败：写入接口没连上或 5174 端口被占用。\\n" + error.message);
   }
-  const handle = await rootHandle.getFileHandle("data.js", { create: true });
-  const writable = await handle.createWritable();
-  await writable.write(dataJsText());
-  await writable.close();
-  alert("已保存 data.js");
-  renderAll();
 }
 
 function nextFileName(tech, file) {
@@ -252,27 +260,37 @@ function nextFileName(tech, file) {
   return `${prefix}-${index}${ext}`;
 }
 
+function fileToDataUrl(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(file);
+  });
+}
+
 async function addResources(event) {
   const tech = currentTech();
   if (!tech) return;
-  if (!rootHandle || !mediaDirHandle) {
-    alert("请先选择项目文件夹。");
-    event.target.value = "";
-    return;
-  }
-  const dir = await mediaDirHandle.getDirectoryHandle(tech.number, { create: true });
   for (const file of event.target.files) {
     const name = nextFileName(tech, file);
-    const handle = await dir.getFileHandle(name, { create: true });
-    const writable = await handle.createWritable();
-    await writable.write(file);
-    await writable.close();
     const type = file.type.startsWith("video/") ? "video" : "image";
-    const src = `assets/media/${tech.number}/${name}`;
-    tech.media.push({ type, title: `${tech.number} ${type === "video" ? "视频" : "照片"} ${tech.media.length + 1}`, src });
-    if (!tech.avatar && type === "image") tech.avatar = src;
+    const dataUrl = await fileToDataUrl(file);
+    const res = await fetch(API_BASE + "/api/upload-resource", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ number: tech.number, fileName: name, dataUrl })
+    });
+    if (!res.ok) {
+      alert("上传失败：" + await res.text());
+      continue;
+    }
+    const result = await res.json();
+    tech.media.push({ type, title: `${tech.number} ${type === "video" ? "视频" : "照片"} ${tech.media.length + 1}`, src: result.src });
+    if (!tech.avatar && type === "image") tech.avatar = result.src;
   }
   event.target.value = "";
+  setStatus("资源已写入本地，记得保存 data.js");
   renderAll();
 }
 
@@ -289,6 +307,7 @@ function addTech() {
     info: { number: base, scores: { appearance: "", figure: "", cup: "", scale: "", age: "", singing: "" }, comment: "" }
   });
   selectedNumber = base;
+  setStatus("已新增，填写资料后保存");
   renderAll();
 }
 
@@ -298,6 +317,7 @@ function deleteTech() {
   if (!confirm("只从页面数据移除此技师，不删除资源文件夹。确定继续？")) return;
   techs = techs.filter((item) => item !== tech);
   selectedNumber = techs[0]?.number || "";
+  setStatus("已移出页面，记得保存");
   renderAll();
 }
 
@@ -305,16 +325,35 @@ els.unlock.addEventListener("click", unlock);
 els.password.addEventListener("keydown", (event) => {
   if (event.key === "Enter") unlock();
 });
-[els.number, els.category, els.appearance, els.figure, els.cup, els.scale, els.age, els.singing, els.comment].forEach((el) => el.addEventListener("input", syncForm));
+els.password.addEventListener("input", () => {
+  if (normalizePassword(els.password.value) === PASSWORD) unlock();
+});
+[els.number, els.category, els.appearance, els.figure, els.cup, els.scale, els.age, els.singing, els.comment].forEach((el) => {
+  el.addEventListener("input", () => {
+    syncForm();
+    setStatus("有未保存修改");
+  });
+});
 els.searchInput.addEventListener("input", renderList);
-els.chooseFolder.addEventListener("click", chooseFolder);
-els.saveAll.addEventListener("click", saveAll);
+els.techList.addEventListener("change", () => {
+  syncForm();
+  selectedNumber = els.techList.value;
+  renderAll();
+});
+els.techSelect.addEventListener("change", () => {
+  syncForm();
+  selectedNumber = els.techSelect.value;
+  renderAll();
+});
+els.editorTechSelect.addEventListener("change", () => {
+  syncForm();
+  selectedNumber = els.editorTechSelect.value;
+  renderAll();
+});
+els.saveTop.addEventListener("click", saveAll);
+els.saveCurrent.addEventListener("click", saveAll);
 els.addTech.addEventListener("click", addTech);
 els.deleteTech.addEventListener("click", deleteTech);
 els.resourceInput.addEventListener("change", addResources);
 
-if (!els.adminApp.hidden) renderAll();
-
-els.password.addEventListener("input", () => {
-  if (normalizePassword(els.password.value) === PASSWORD) unlock();
-});
+renderAll();

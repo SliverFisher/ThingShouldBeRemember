@@ -414,6 +414,11 @@ window.TECHNICIANS = [
         "type": "image",
         "title": "155 照片 1",
         "src": "assets/media/155/photo-1.jpg"
+      },
+      {
+        "type": "video",
+        "title": "155 视频 2",
+        "src": "assets/media/155/video-1.mp4"
       }
     ],
     "info": {
@@ -454,6 +459,11 @@ window.TECHNICIANS = [
         "type": "video",
         "title": "160 视频 4",
         "src": "assets/media/160/extra-3.mp4"
+      },
+      {
+        "type": "video",
+        "title": "160 视频 5",
+        "src": "assets/media/160/video-1.mp4"
       }
     ],
     "info": {
@@ -951,7 +961,7 @@ window.TECHNICIANS = [
   },
   {
     "number": "855",
-    "category": "",
+    "category": "星际",
     "note": "",
     "avatar": "assets/media/855/photo-1.jpg",
     "media": [
@@ -959,21 +969,16 @@ window.TECHNICIANS = [
         "type": "image",
         "title": "855 照片 1",
         "src": "assets/media/855/photo-1.jpg"
-      },
-      {
-        "type": "image",
-        "title": "855 照片 2",
-        "src": "assets/media/855/extra-1.jpg"
       }
     ],
     "info": {
       "number": "855",
       "scores": {
-        "appearance": "",
-        "figure": "",
-        "cup": "",
-        "scale": "",
-        "age": "",
+        "appearance": "7",
+        "figure": "7",
+        "cup": "c",
+        "scale": "7",
+        "age": "30",
         "singing": ""
       },
       "comment": ""
@@ -1008,7 +1013,7 @@ window.TECHNICIANS = [
     "number": "888",
     "category": "星际",
     "note": "颜值 7.5 · 身材 7.8 · 尺度 6",
-    "avatar": "assets/media/888/photo-1.jpg",
+    "avatar": "assets/media/888/extra-1.jpg",
     "media": [
       {
         "type": "image",

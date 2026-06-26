@@ -43,15 +43,6 @@ function infoItems(tech) {
   ];
 }
 
-function shortLine(tech) {
-  const scores = scoresOf(tech);
-  return [
-    scores.appearance && "颜值 " + scores.appearance,
-    scores.figure && "身材 " + scores.figure,
-    scores.scale && "尺度 " + scores.scale
-  ].filter(Boolean).join(" · ");
-}
-
 function renderViewerMedia() {
   const media = activeMedia[activeMediaIndex];
   if (!media) return;
@@ -157,9 +148,6 @@ techs.forEach((tech) => {
   head.appendChild(makeEl("div", "number", tech.number));
   if (tech.category) head.appendChild(makeEl("div", "tag", tech.category));
   info.appendChild(head);
-
-  const line = shortLine(tech);
-  if (line) info.appendChild(makeEl("div", "meta", line));
 
   const facts = makeEl("div", "facts");
   infoItems(tech).forEach(([label, value]) => {
