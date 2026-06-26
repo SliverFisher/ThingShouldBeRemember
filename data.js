@@ -34,6 +34,11 @@ window.TECHNICIANS = [
         "type": "image",
         "title": "100 照片 1",
         "src": "assets/media/100/photo-1.jpg"
+      },
+      {
+        "type": "image",
+        "title": "100 照片 2",
+        "src": "assets/media/100/photo-2.jpg"
       }
     ],
     "info": {
@@ -275,6 +280,36 @@ window.TECHNICIANS = [
     }
   },
   {
+    "number": "122",
+    "category": "星际",
+    "note": "",
+    "avatar": "assets/media/122/photo-2.jpg",
+    "media": [
+      {
+        "type": "image",
+        "title": "122 照片 1",
+        "src": "assets/media/122/photo-1.jpg"
+      },
+      {
+        "type": "image",
+        "title": "122 照片 2",
+        "src": "assets/media/122/photo-2.jpg"
+      }
+    ],
+    "info": {
+      "number": "122",
+      "scores": {
+        "appearance": "7",
+        "figure": "7",
+        "cup": "B",
+        "scale": "7",
+        "age": "30",
+        "singing": ""
+      },
+      "comment": ""
+    }
+  },
+  {
     "number": "123",
     "category": "星际",
     "note": "颜值 8 · 身材 8 · 尺度 8",
@@ -373,12 +408,17 @@ window.TECHNICIANS = [
     "number": "150",
     "category": "星际",
     "note": "颜值 6.5 · 身材 7 · 尺度 5",
-    "avatar": "assets/media/150/photo-1.jpg",
+    "avatar": "assets/media/150/photo-2.jpg",
     "media": [
       {
         "type": "image",
         "title": "150 照片 1",
         "src": "assets/media/150/photo-1.jpg"
+      },
+      {
+        "type": "image",
+        "title": "150 照片 2",
+        "src": "assets/media/150/photo-2.jpg"
       }
     ],
     "info": {
