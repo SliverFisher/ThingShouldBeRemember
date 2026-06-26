@@ -945,6 +945,31 @@ window.TECHNICIANS = [
     }
   },
   {
+    "number": "806",
+    "category": "星际",
+    "note": "",
+    "avatar": "assets/media/806/photo-1.jpg",
+    "media": [
+      {
+        "type": "image",
+        "title": "806 照片 1",
+        "src": "assets/media/806/photo-1.jpg"
+      }
+    ],
+    "info": {
+      "number": "806",
+      "scores": {
+        "appearance": "6",
+        "figure": "6",
+        "cup": "B",
+        "scale": "6",
+        "age": "32",
+        "singing": ""
+      },
+      "comment": ""
+    }
+  },
+  {
     "number": "810",
     "category": "星际",
     "note": "颜值 7 · 身材 7 · 尺度 4",
