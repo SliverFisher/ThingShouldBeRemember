@@ -974,11 +974,6 @@ window.TECHNICIANS = [
         "type": "image",
         "title": "855 照片 1",
         "src": "assets/media/855/photo-1.jpg"
-      },
-      {
-        "type": "image",
-        "title": "855 照片 2",
-        "src": "assets/media/855/extra-1.jpg"
       }
     ],
     "info": {
