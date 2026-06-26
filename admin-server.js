@@ -83,6 +83,18 @@ async function unusedFilePath(dir, fileName) {
   }
 }
 
+function cleanMediaSrc(src) {
+  const value = String(src || "").replace(/\\/g, "/");
+  if (!value.startsWith("assets/media/")) throw new Error("Invalid media path");
+  const parts = value.split("/").filter(Boolean);
+  if (parts.length < 4 || parts[0] !== "assets" || parts[1] !== "media") {
+    throw new Error("Invalid media path");
+  }
+  cleanNumber(parts[2]);
+  cleanFileName(parts[parts.length - 1]);
+  return parts;
+}
+
 const server = http.createServer(async (req, res) => {
   try {
     if (req.method === "OPTIONS") {
@@ -115,6 +127,15 @@ const server = http.createServer(async (req, res) => {
       await fs.writeFile(target, Buffer.from(match[2], "base64"));
       const src = `assets/media/${number}/${upload.fileName}`;
       send(res, 200, JSON.stringify({ ok: true, src }), "application/json; charset=utf-8");
+      return;
+    }
+
+    if (req.method === "POST" && url.pathname === "/api/delete-resource") {
+      const body = await readJson(req);
+      const parts = cleanMediaSrc(body.src);
+      const target = safeJoin(...parts);
+      await fs.rm(target, { force: true });
+      send(res, 200, JSON.stringify({ ok: true }), "application/json; charset=utf-8");
       return;
     }
 
