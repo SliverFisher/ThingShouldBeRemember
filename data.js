@@ -9,11 +9,6 @@ window.TECHNICIANS = [
         "type": "image",
         "title": "000 照片 1",
         "src": "assets/media/000/photo-1.jpg"
-      },
-      {
-        "type": "video",
-        "title": "000 视频 2",
-        "src": "assets/media/000/extra-1.mp4"
       }
     ],
     "info": {
