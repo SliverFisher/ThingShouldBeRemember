@@ -21,19 +21,10 @@ function openViewer(media) {
   viewerTitle.textContent = media.title || "查看";
   viewerBody.innerHTML = "";
 
-  if (media.type === "video") {
-    const video = document.createElement("video");
-    video.src = media.src;
-    video.controls = true;
-    video.autoplay = true;
-    video.playsInline = true;
-    viewerBody.appendChild(video);
-  } else {
-    const img = document.createElement("img");
-    img.src = media.src;
-    img.alt = media.title || "照片";
-    viewerBody.appendChild(img);
-  }
+  const img = document.createElement("img");
+  img.src = media.src;
+  img.alt = media.title || "照片";
+  viewerBody.appendChild(img);
 
   viewer.showModal();
 }
@@ -47,21 +38,12 @@ function openDetail(tech) {
     const item = makeEl("button", "media");
     item.type = "button";
 
-    if (media.type === "video") {
-      const video = document.createElement("video");
-      video.src = media.src;
-      video.muted = true;
-      video.playsInline = true;
-      video.preload = "metadata";
-      item.appendChild(video);
-    } else {
-      const img = document.createElement("img");
-      img.src = media.src;
-      img.alt = media.title || "照片";
-      item.appendChild(img);
-    }
+    const img = document.createElement("img");
+    img.src = media.src;
+    img.alt = media.title || "照片";
+    item.appendChild(img);
 
-    item.appendChild(makeEl("div", "media-caption", media.title || "媒体"));
+    item.appendChild(makeEl("div", "media-caption", media.title || "照片"));
     item.addEventListener("click", () => openViewer(media));
     gallery.appendChild(item);
   });

@@ -1,15 +1,9 @@
 # 技师展示页
 
-这是一个静态 GitHub Pages 项目。
-
-## 文件结构
+这是一个适合 GitHub Pages 的静态项目。
 
 - index.html：页面入口
 - data.js：技师数据
-- assets/css/style.css：样式
-- assets/js/app.js：交互
-- assets/media/：图片和视频资源
+- assets/media/技师号码/photo-1.jpg：裁切后的照片
 
-## 发布到 GitHub Pages
-
-把这个 massage 文件夹里的所有内容上传到仓库根目录，或上传到 GitHub Pages 指定目录即可。
+把本文件夹内容上传到 GitHub Pages 仓库即可。
