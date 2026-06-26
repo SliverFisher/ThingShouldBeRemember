@@ -744,6 +744,11 @@ window.TECHNICIANS = [
         "type": "image",
         "title": "222 照片 1",
         "src": "assets/media/222/photo-1.jpg"
+      },
+      {
+        "type": "image",
+        "title": "222 照片 2",
+        "src": "assets/media/222/photo-2-2.jpg"
       }
     ],
     "info": {
@@ -1029,6 +1034,11 @@ window.TECHNICIANS = [
         "type": "image",
         "title": "855 照片 1",
         "src": "assets/media/855/photo-1.jpg"
+      },
+      {
+        "type": "image",
+        "title": "855 照片 2",
+        "src": "assets/media/855/photo-2.jpg"
       }
     ],
     "info": {
