@@ -66,6 +66,23 @@ function cleanFileName(fileName) {
   return base;
 }
 
+async function unusedFilePath(dir, fileName) {
+  const ext = path.extname(fileName);
+  const stem = path.basename(fileName, ext);
+  let candidate = fileName;
+  let index = 2;
+  while (true) {
+    const target = safeJoin(dir, candidate);
+    try {
+      await fs.access(target);
+      candidate = `${stem}-${index}${ext}`;
+      index += 1;
+    } catch {
+      return { fileName: candidate, target };
+    }
+  }
+}
+
 const server = http.createServer(async (req, res) => {
   try {
     if (req.method === "OPTIONS") {
@@ -93,9 +110,10 @@ const server = http.createServer(async (req, res) => {
       if (!match) throw new Error("Invalid data URL");
       const dir = safeJoin("assets", "media", number);
       await fs.mkdir(dir, { recursive: true });
-      const target = safeJoin("assets", "media", number, fileName);
+      const upload = await unusedFilePath(dir, fileName);
+      const target = upload.target;
       await fs.writeFile(target, Buffer.from(match[2], "base64"));
-      const src = `assets/media/${number}/${fileName}`;
+      const src = `assets/media/${number}/${upload.fileName}`;
       send(res, 200, JSON.stringify({ ok: true, src }), "application/json; charset=utf-8");
       return;
     }
