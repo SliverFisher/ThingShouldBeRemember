@@ -270,8 +270,10 @@ function fileToDataUrl(file) {
 }
 
 async function addResources(event) {
+  syncForm();
   const tech = currentTech();
   if (!tech) return;
+  let added = 0;
   for (const file of event.target.files) {
     const name = nextFileName(tech, file);
     const type = file.type.startsWith("video/") ? "video" : "image";
@@ -288,10 +290,14 @@ async function addResources(event) {
     const result = await res.json();
     tech.media.push({ type, title: `${tech.number} ${type === "video" ? "视频" : "照片"} ${tech.media.length + 1}`, src: result.src });
     if (!tech.avatar && type === "image") tech.avatar = result.src;
+    added += 1;
   }
   event.target.value = "";
-  setStatus("资源已写入本地，记得保存 data.js");
   renderAll();
+  if (added) {
+    setStatus("资源已写入本地，正在保存页面数据...");
+    await saveAll();
+  }
 }
 
 function addTech() {
