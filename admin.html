@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>管理员 · 技师展示页</title>
-  <link rel="stylesheet" href="assets/css/admin.css">
+  <link rel="stylesheet" href="assets/css/admin.css?v=20260626-2">
 </head>
 <body>
   <section class="lock-screen" id="lockScreen">
@@ -14,7 +14,7 @@
       <p>输入密码后编辑技师资料和资源。</p>
       <div class="lock-row">
         <input id="passwordInput" type="password" inputmode="numeric" autocomplete="current-password" placeholder="管理员密码">
-        <button class="btn primary" id="unlockBtn" type="button">进入</button>
+        <button class="btn primary" id="unlockBtn" type="button" onclick="window.massageAdminUnlock && window.massageAdminUnlock()">进入</button>
       </div>
       <div class="lock-error" id="lockError"></div>
       <a class="back-link" href="index.html">返回前台</a>
@@ -103,6 +103,6 @@
   </section>
 
   <script src="data.js"></script>
-  <script src="assets/js/admin.js"></script>
+  <script src="assets/js/admin.js?v=20260626-2"></script>
 </body>
 </html>
