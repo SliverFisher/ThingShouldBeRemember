@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>管理员 · 技师展示页</title>
+  <link rel="stylesheet" href="assets/css/admin.css">
+</head>
+<body>
+  <section class="lock-screen" id="lockScreen">
+    <div class="lock-card">
+      <div class="lock-badge">管</div>
+      <h1>管理员入口</h1>
+      <p>输入密码后编辑技师资料和资源。</p>
+      <div class="lock-row">
+        <input id="passwordInput" type="password" inputmode="numeric" autocomplete="current-password" placeholder="管理员密码">
+        <button class="btn primary" id="unlockBtn" type="button">进入</button>
+      </div>
+      <div class="lock-error" id="lockError"></div>
+      <a class="back-link" href="index.html">返回前台</a>
+    </div>
+  </section>
+
+  <section class="admin-app" id="adminApp" hidden>
+    <header class="admin-topbar">
+      <div class="admin-title">
+        <div class="admin-badge">管</div>
+        <div>
+          <h1>技师管理</h1>
+          <p>维护 GitHub Pages 静态数据</p>
+        </div>
+      </div>
+      <div class="admin-actions">
+        <a class="btn ghost" href="index.html">返回前台</a>
+        <button class="btn" id="chooseFolder" type="button">选择项目文件夹</button>
+        <button class="btn primary" id="saveAll" type="button">保存 data.js</button>
+      </div>
+    </header>
+
+    <main class="admin-shell">
+      <aside class="side-panel">
+        <div class="side-head">
+          <strong>技师列表</strong>
+          <span id="countText">0 位</span>
+        </div>
+        <div class="search-row">
+          <input id="searchInput" type="search" placeholder="搜索号码">
+          <button class="btn compact" id="addTech" type="button">新增</button>
+        </div>
+        <div class="folder-status" id="folderStatus">未选择项目文件夹</div>
+        <div class="tech-list" id="techList"></div>
+      </aside>
+
+      <section class="workbench">
+        <div class="workspace-head">
+          <div>
+            <h2 id="editorTitle">选择一个技师</h2>
+            <p id="editorSub">资料、封面和资源统一在这里维护</p>
+          </div>
+          <div class="editor-actions">
+            <label class="btn file-btn">
+              添加资源
+              <input id="resourceInput" type="file" accept="image/*,video/*" multiple hidden>
+            </label>
+            <button class="btn danger" id="deleteTech" type="button">移出页面</button>
+          </div>
+        </div>
+
+        <div class="editor-grid">
+          <form class="info-panel" id="editorForm">
+            <h3>基础信息</h3>
+            <div class="form-grid">
+              <label>技师号码<input id="numberInput" required></label>
+              <label>分类<input id="categoryInput" placeholder="例如：星际"></label>
+              <label>颜值<input id="appearanceInput"></label>
+              <label>身材<input id="figureInput"></label>
+              <label>罩杯<input id="cupInput"></label>
+              <label>尺度<input id="scaleInput"></label>
+              <label>年龄<input id="ageInput"></label>
+              <label>歌声<input id="singingInput"></label>
+              <label class="wide">备注<textarea id="commentInput" rows="5"></textarea></label>
+            </div>
+          </form>
+
+          <section class="preview-panel">
+            <h3>当前封面</h3>
+            <div class="cover-preview" id="coverPreview"></div>
+            <p>点击下方资源的“设为封面”后，再保存 data.js。</p>
+          </section>
+        </div>
+
+        <section class="resource-panel">
+          <div class="resource-head">
+            <div>
+              <h3>资源管理</h3>
+              <p>添加资源会复制到 assets/media/号码/，移出页面不会删除源文件。</p>
+            </div>
+          </div>
+          <div class="media-grid" id="mediaGrid"></div>
+        </section>
+      </section>
+    </main>
+  </section>
+
+  <script src="data.js"></script>
+  <script src="assets/js/admin.js"></script>
+</body>
+</html>
